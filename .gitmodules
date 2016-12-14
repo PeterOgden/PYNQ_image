@@ -1,3 +1,6 @@
 [submodule "device-tree-xlnx"]
 	path = device-tree-xlnx
 	url = https://github.com/Xilinx/device-tree-xlnx.git
+[submodule "linux-xlnx"]
+	path = linux-xlnx
+	url = https://github.com/Xilinx/linux-xlnx.git

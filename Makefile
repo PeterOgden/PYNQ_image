@@ -14,3 +14,11 @@ pynq_dts/pynq.dtsi: pynq_dts/system.dts pynq.dtsi
 devicetree.dtb: pynq_dts/pynq.dtsi pynq_dts/system.dts
 	bash compile_dtc.sh > devicetree.dtb
 
+linux-xlnx/.config: pynq_kernel.config
+	cp $< $@
+
+linux-xlnx/arch/arm/boot/uImage: linux-xlnx/.config
+	cd linux-xlnx && make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- UIMAGE_LOADADDR=2080000 uImage
+
+uImage: linux-xlnx/arch/arm/boot/uImage
+	cp $< $@
