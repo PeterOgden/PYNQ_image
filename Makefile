@@ -1,5 +1,5 @@
 
-all: devicetree.dtb
+all: devicetree.dtb uImage
 .PHONY: all
 
 pynq.hdf:
@@ -22,3 +22,10 @@ linux-xlnx/arch/arm/boot/uImage: linux-xlnx/.config
 
 uImage: linux-xlnx/arch/arm/boot/uImage
 	cp $< $@
+
+clean:
+	rm -rf pynq_dts
+	rm -rf simple_pynq
+	cd linux-xlnx && make clean
+	rm -f devicetree.dtb uImage pynq.hdf
+.PHONY: clean
