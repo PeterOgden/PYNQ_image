@@ -1,0 +1,27 @@
+
+/ {
+	chosen {
+		bootargs = "console=ttyPS0,115200 root=/dev/mmcblk0p2 rw earlyprintk rootfstype=ext4 rootwait devtmpfs.mount=1";
+		linux,stdout-path = "/amba@0/serial@E0001000";
+	};
+
+	amba {
+
+		fabric@40000000 {
+			compatible = "generic-uio";
+			reg = <0x40000000 0x10000>;
+			interrupt-parent = <&intc>;
+			interrupts = <0x0 0x1d 0x4>;
+		};
+
+	};
+
+
+	xlnk {
+		compatible = "xlnx,xlnk-1.0";
+		clock-names = "xclk0", "xclk1", "xclk2", "xclk3";
+		clocks = <&clkc 0xf &clkc 0x10 &clkc 0x11 &clkc 0x12>;
+	};
+};
+
+
