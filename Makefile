@@ -23,6 +23,12 @@ linux-xlnx/arch/arm/boot/uImage: linux-xlnx/.config
 uImage: linux-xlnx/arch/arm/boot/uImage
 	cp $< $@
 
+fsbl/executable.elf: pynq.hdf
+	hsi -mode batch -source create_fsbl.tcl
+
+fsbl.elf: fsbl/executable.elf
+	cp $< $@
+
 clean:
 	rm -rf pynq_dts
 	rm -rf simple_pynq
