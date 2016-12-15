@@ -1,5 +1,5 @@
 
-all: boot_files/devicetree.dtb boot_files/uImage boot_files/BOOT.bin
+all: checkenv boot_files/devicetree.dtb boot_files/uImage boot_files/BOOT.bin
 .PHONY: all
 
 pynq.hdf:
@@ -50,3 +50,11 @@ clean:
 	cd linux-xlnx && make clean
 	rm -f devicetree.dtb uImage pynq.hdf
 .PHONY: clean
+
+checkenv:
+	which dtc
+	which hsi
+	which vivado
+	which arm-linux-gnueabihf-gcc
+
+.PHONY: checkenv
