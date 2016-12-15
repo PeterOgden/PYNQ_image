@@ -1,5 +1,5 @@
 
-all: devicetree.dtb uImage
+all: boot_files/devicetree.dtb boot_files/uImage boot_files/BOOT.bin
 .PHONY: all
 
 pynq.hdf:
@@ -11,8 +11,8 @@ pynq_dts/system.dts: pynq.hdf
 pynq_dts/pynq.dtsi: pynq_dts/system.dts pynq.dtsi
 	cp pynq.dtsi pynq_dts/
 
-devicetree.dtb: pynq_dts/pynq.dtsi pynq_dts/system.dts
-	bash compile_dtc.sh > devicetree.dtb
+boot_files/devicetree.dtb: pynq_dts/pynq.dtsi pynq_dts/system.dts
+	bash compile_dtc.sh > $@
 
 linux-xlnx/.config: pynq_kernel.config
 	cp $< $@
@@ -20,7 +20,7 @@ linux-xlnx/.config: pynq_kernel.config
 linux-xlnx/arch/arm/boot/uImage: linux-xlnx/.config
 	cd linux-xlnx && make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- UIMAGE_LOADADDR=2080000 uImage
 
-uImage: linux-xlnx/arch/arm/boot/uImage
+boot_files/uImage: linux-xlnx/arch/arm/boot/uImage
 	cp $< $@
 
 fsbl/executable.elf: pynq.hdf
@@ -40,6 +40,9 @@ boot_gen/bitstream.bit: PYNQ/Pynq-Z1/bitstream/base.bit
 
 boot_gen/BOOT.bin: boot_gen/fsbl.elf boot_gen/u-boot.elf boot_gen/bitstream.bit
 	cd boot_gen && bootgen -image boot.bif -arch zynq -o BOOT.bin
+
+boot_files/BOOT.bin: boot_gen/BOOT.bin
+	cp $< $@
 
 clean:
 	rm -rf pynq_dts
