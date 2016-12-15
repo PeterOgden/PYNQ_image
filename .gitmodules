@@ -4,3 +4,9 @@
 [submodule "linux-xlnx"]
 	path = linux-xlnx
 	url = https://github.com/Xilinx/linux-xlnx.git
+[submodule "u-boot-digilent"]
+	path = u-boot-digilent
+	url = https://github.com/Digilent/u-boot-digilent.git
+[submodule "PYNQ"]
+	path = PYNQ
+	url = https://github.com/Xilinx/PYNQ.git

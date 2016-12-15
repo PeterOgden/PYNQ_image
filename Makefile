@@ -26,8 +26,20 @@ uImage: linux-xlnx/arch/arm/boot/uImage
 fsbl/executable.elf: pynq.hdf
 	hsi -mode batch -source create_fsbl.tcl
 
-fsbl.elf: fsbl/executable.elf
+boot_gen/fsbl.elf: fsbl/executable.elf
 	cp $< $@
+
+u-boot-digilent/u-boot:
+	cd u-boot-digilent && make zynq_artyz7_defconfig && make CROSS_COMPILE=arm-linux-gnueabihf-
+
+boot_gen/u-boot.elf: u-boot-digilent/u-boot
+	cp $< $@
+
+boot_gen/bitstream.bit: PYNQ/Pynq-Z1/bitstream/base.bit
+	cp $< $@
+
+boot_gen/BOOT.bin: boot_gen/fsbl.elf boot_gen/u-boot.elf boot_gen/bitstream.bit
+	cd boot_gen && bootgen -image boot.bif -arch zynq -o BOOT.bin
 
 clean:
 	rm -rf pynq_dts
