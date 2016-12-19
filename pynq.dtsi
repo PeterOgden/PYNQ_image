@@ -1,7 +1,7 @@
 
 / {
 	chosen {
-		bootargs = "console=ttyPS0,115200 root=/dev/mmcblk0p2 rw earlyprintk rootfstype=ext4 rootwait devtmpfs.mount=1";
+		bootargs = "console=ttyPS0,115200 root=/dev/mmcblk0p2 rw earlyprintk rootfstype=ext4 rootwait devtmpfs.mount=1 uio_pdrv_genirq.of_id=\"generic-uio\"";
 		linux,stdout-path = "/amba@0/serial@E0001000";
 	};
 
@@ -22,6 +22,16 @@
 		clock-names = "xclk0", "xclk1", "xclk2", "xclk3";
 		clocks = <&clkc 0xf &clkc 0x10 &clkc 0x11 &clkc 0x12>;
 	};
+	usb_phy0: phy0 {
+		compatible = "ulpi-phy";
+		#phy-cells = <0>;
+		reg = <0xe0002000 0x1000>;
+		view-port = <0x170>;
+		drv-vbus;
+	};
+   
 };
 
-
+&usb0 {
+	usb-phy = <&usb_phy0>;
+};
