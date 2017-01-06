@@ -1,0 +1,30 @@
+--- ../rootfs/etc/samba/smb.conf	2016-12-19 16:01:15.000000000 +0000
++++ ../imagefs/etc/samba/smb.conf	2016-08-11 18:22:03.859716404 +0100
+@@ -185,6 +185,10 @@
+ # public shares, not just authenticated ones
+    usershare allow guests = yes
+ 
++
++# grahams - will allow some symlink following, globally disable here
++unix extensions = no
++
+ #======================= Share Definitions =======================
+ 
+ # Un-comment the following (and tweak the other settings below to suit)
+@@ -258,3 +262,16 @@
+ # to the drivers directory for these users to have write rights in it
+ ;   write list = root, @lpadmin
+ 
++
++[xilinx]
++path = /home/xilinx
++browsable =yes
++writable = yes
++guest ok = yes
++read only = no
++valid users = samba xilinx
++follow symlinks = yes
++wide links = yes
++create mask = 664
++directory mask = 755
++force user = xilinx

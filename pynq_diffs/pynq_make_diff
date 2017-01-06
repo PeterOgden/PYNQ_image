@@ -1,0 +1,31 @@
+diff --git a/scripts/linux/makefile.pynq b/scripts/linux/makefile.pynq
+index a1f7ef6..258dbf7 100644
+--- a/scripts/linux/makefile.pynq
++++ b/scripts/linux/makefile.pynq
+@@ -4,7 +4,8 @@ ifndef BOARD
+ endif
+ 
+ REPO_DIR = /home/xilinx/pynq_git
+-PYNQ_DIR = /usr/local/lib/python3.4/dist-packages/pynq
++SITE_PACKAGES = $(shell python3.6 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
++PYNQ_DIR = ${SITE_PACKAGES}/pynq
+ 
+ FINAL_DOCS_DIR = /home/xilinx/docs
+ FINAL_NOTEBOOKS_DIR = /home/xilinx/jupyter_notebooks
+@@ -86,12 +87,12 @@ pynq_package:
+ 	@echo
+ 	@echo "Pip install latest pynq python package"
+ 	@echo
+-	python3.4 /home/xilinx/scripts/stop_pl_server.py
+-	rm -rf ${PYNQ_DIR}/*
++	-python3.6 /home/xilinx/scripts/stop_pl_server.py
++	-rm -rf ${PYNQ_DIR}/*
+ 	cp -rf ${REPO_DIR}/${BOARD}/sdk/bin/*.bin ${REPO_DIR}/python/pynq/iop/
+ 	cp -rf ${REPO_DIR}/${BOARD}/bitstream ${REPO_DIR}/python/pynq/
+-	cd ${REPO_DIR}/python ; sudo -H pip install --upgrade .
+-	python3.4 /home/xilinx/scripts/start_pl_server.py &
++	cd ${REPO_DIR}/python ; pip3.6 install --upgrade .
++	python3.6 /home/xilinx/scripts/start_pl_server.py &
+ 
+ pynq_permissions:
+ 	chown -R xilinx:xilinx ${PYNQ_DIR}/*

@@ -44,6 +44,10 @@ boot_gen/BOOT.bin: boot_gen/fsbl.elf boot_gen/u-boot.elf boot_gen/bitstream.bit
 boot_files/BOOT.bin: boot_gen/BOOT.bin
 	cp $< $@
 
+rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage
+	bash create_mount_img.sh rootfs.img rootfs_staging
+	bash create_rootfs.sh rootfs_staging
+
 clean:
 	rm -rf pynq_dts
 	rm -rf simple_pynq
