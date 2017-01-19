@@ -35,7 +35,7 @@ sudo chroot $target bash install_python.sh
 sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
-git clone https://github.com/PeterOgden/PYNQ.git -b image_2017_01 $target/home/xilinx/pynq_git
+cp PYNQ $target/home/xilinx/pynq_git
 chroot $target bash install_pynq.sh
 
 chroot $target bash install_sigrok.sh
