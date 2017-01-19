@@ -30,7 +30,7 @@ boot_gen/fsbl.elf: fsbl/executable.elf
 	cp $< $@
 
 u-boot-digilent/u-boot:
-	cd u-boot-digilent && make zynq_artyz7_defconfig && make CROSS_COMPILE=arm-linux-gnueabihf-
+	cd u-boot-digilent && make zynq_artyz7_defconfig && patch .config < ../u-boot.config.patch && make CROSS_COMPILE=arm-linux-gnueabihf- ARCH=arm u-boot
 
 boot_gen/u-boot.elf: u-boot-digilent/u-boot
 	cp $< $@
@@ -38,15 +38,18 @@ boot_gen/u-boot.elf: u-boot-digilent/u-boot
 boot_gen/bitstream.bit: PYNQ/Pynq-Z1/bitstream/base.bit
 	cp $< $@
 
-boot_gen/BOOT.bin: boot_gen/fsbl.elf boot_gen/u-boot.elf boot_gen/bitstream.bit
-	cd boot_gen && bootgen -image boot.bif -arch zynq -o BOOT.bin
+boot_gen/BOOT.bin: boot_gen/fsbl.elf boot_gen/u-boot.elf boot_gen/bitstream.bit boot_gen/boot.bif
+	cd boot_gen && bootgen -image boot.bif -arch zynq -o BOOT.bin -w
 
 boot_files/BOOT.bin: boot_gen/BOOT.bin
 	cp $< $@
 
-rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage
-	bash create_mount_img.sh rootfs.img rootfs_staging
-	bash create_rootfs.sh rootfs_staging
+packages/gcc-mb/build.success:
+	bash packages/gcc-mb/build.sh
+
+rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success
+	sudo bash create_mount_img.sh rootfs.img rootfs_staging
+	sudo bash create_rootfs.sh rootfs_staging
 
 clean:
 	rm -rf pynq_dts

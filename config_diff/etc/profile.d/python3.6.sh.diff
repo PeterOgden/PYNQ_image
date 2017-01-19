@@ -1,4 +1,0 @@
---- /dev/null   1970-01-01 00:00:04.829999993 +0000
-+++ /etc/profile.d/python3.6.sh 1970-01-01 00:02:32.979999772 +0000
-@@ -0,0 +1 @@
-+export PATH=/opt/python3.6/bin:$PATH

@@ -1,6 +1,12 @@
 cd /root
 export http_proxy=http://proxy
 export https_proxy=http://proxy
+export CFLAGS="-O2"
+export CPPFLAGS="-O2"
+
+mkdir python_install
+cd python_install
+
 wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tar.xz
 tar -xf Python-3.6.0.tar.xz
 cd Python-3.6.0
@@ -20,5 +26,12 @@ patch Modules/_randommodule.c <<EOT
              /* Reading system entropy failed, fall back on the worst entropy:
 EOT
 
-./configure --prefix=/opt/python3.6
+./configure --prefix=/opt/python3.6 --enable-shared
 make -j 4 altinstall
+
+echo /opt/python3.6/lib > /etc/ld.so.conf.d/python3.6.conf
+ldconfig
+
+cd ..
+cd ..
+rm -rf python_install

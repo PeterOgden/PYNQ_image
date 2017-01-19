@@ -1,11 +1,18 @@
 target=$1
-fss="proc run"
+fss="proc run dev"
+
+# Make sure that our version of QEMU is on the PATH
+export PATH=/opt/qemu/bin:$PATH
 
 # Perform the basic bootstrapping of the image
 multistrap -f image_config/test.config -d $target --no-auth
+
+# Copy over what we need to complete the installation
 cp `which qemu-arm-static` $target/usr/bin
 cp image_config/*.sh $target
-cp pynq_diffs/* $target
+cp -r reveal.js $target/root
+
+# Finish the base install
 chroot $target bash postinst.sh
 
 # Pass through special files so that the chroot works properly
@@ -28,8 +35,13 @@ sudo chroot $target bash install_python.sh
 sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
-git clone https://github.com/Xilinx/PYNQ.git $target/home/xilinx/pynq_git
+git clone https://github.com/PeterOgden/PYNQ.git -b image_2017_01 $target/home/xilinx/pynq_git
 chroot $target bash install_pynq.sh
+
+chroot $target bash install_sigrok.sh
+chroot $target bash install_opencv.sh
+
+bash packages/xkcd/install.sh $target
 
 # Unmount special files
 for fs in $fss
@@ -43,3 +55,7 @@ rm -f $target/*.sh
 rm -f $target/pynq_make_diff
 
 cp boot_files/* $target/boot
+
+cp -r packages/gcc-mb/microblazeel-xilinx-elf $target/opt
+chown root:root -R $target/opt/microblazeel-xilinx-elf
+
