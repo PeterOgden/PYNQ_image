@@ -10,3 +10,6 @@
 [submodule "PYNQ"]
 	path = PYNQ
 	url = https://github.com/Xilinx/PYNQ.git
+[submodule "binutils"]
+	path = packages/gcc-mb/binutils
+	url = https://github.com/Xilinx/binutils.git
