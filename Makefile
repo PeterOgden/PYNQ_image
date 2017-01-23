@@ -1,3 +1,5 @@
+QEMU_EXE ?= $(shell which qemu-arm-static)
+
 
 all: checkenv boot_files/devicetree.dtb boot_files/uImage boot_files/BOOT.bin
 .PHONY: all
@@ -47,9 +49,14 @@ boot_files/BOOT.bin: boot_gen/BOOT.bin
 packages/gcc-mb/build.success:
 	bash packages/gcc-mb/build.sh
 
-rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success
+linux-headers-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb: linux-xlnx/.config
+	cd linux-xlnx && make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- deb-pkg -j4
+
+rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success linux-headers-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb
 	sudo bash create_mount_img.sh rootfs.img rootfs_staging
 	sudo bash create_rootfs.sh rootfs_staging
+
+.PRECIOUS: rootfs.img
 
 clean:
 	rm -rf pynq_dts
@@ -63,5 +70,9 @@ checkenv:
 	which hsi
 	which vivado
 	which arm-linux-gnueabihf-gcc
+	which microblaze-xilinx-elf-gcc
+	${QEMU_EXE} -version | fgrep 2.8.0
+	vivado -version | fgrep 2016.1
+	sudo -n true
 
 .PHONY: checkenv

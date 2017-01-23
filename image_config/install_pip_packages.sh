@@ -3,7 +3,11 @@ export http_proxy=http://proxy
 export PATH=/opt/python3.6/bin:$PATH
 export HOME=/root
 
-inter_count=0
+set -x
+
+# This shouldn't be necessary but pygraphviz's installation doesn't work properly
+export LIBRARY_PATH=/opt/python3.6/lib
+iter_count=0
 max_iterations=3
 
 read -d '' PACKAGES <<EOT
@@ -14,6 +18,7 @@ chardet
 html5lib
 jupyter
 jupyterlab
+jupyter_contrib_nbextensions
 lxml
 nbsphinx
 networkx
@@ -55,9 +60,9 @@ do
     result=$?
     if [ $result != "0" ]; then
       echo "Package $p installed failed" >> pip.failed
-      failed_packages="$failed_packages\n $p"
+      failed_packages="$failed_packages $p"
     fi
-  iter_count=$(( $inter_count + 1 ))
-  PACKAGES="$failed_packages"
   done
+  iter_count=$(( $iter_count + 1 ))
+  PACKAGES="$failed_packages"
 done

@@ -1,0 +1,22 @@
+--- .config.old	2017-01-17 18:24:32.598680144 +0000
++++ .config	2017-01-17 18:25:54.418677269 +0000
+@@ -220,7 +220,7 @@
+ # CONFIG_SATA_BOOT is not set
+ # CONFIG_SD_BOOT is not set
+ # CONFIG_SPI_BOOT is not set
+-CONFIG_BOOTDELAY=2
++CONFIG_BOOTDELAY=3
+ # CONFIG_CONSOLE_RECORD is not set
+ 
+ #
+@@ -360,8 +360,8 @@
+ #
+ CONFIG_OF_CONTROL=y
+ CONFIG_SPL_OF_CONTROL=y
+-CONFIG_OF_SEPARATE=y
+-# CONFIG_OF_EMBED is not set
++# CONFIG_OF_SEPARATE is not set
++CONFIG_OF_EMBED=y
+ CONFIG_OF_SPL_REMOVE_PROPS="pinctrl-0 pinctrl-names clocks clock-names interrupt-parent"
+ CONFIG_NET=y
+ CONFIG_NET_RANDOM_ETHADDR=y

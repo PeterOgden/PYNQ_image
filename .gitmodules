@@ -9,7 +9,10 @@
 	url = https://github.com/Digilent/u-boot-digilent.git
 [submodule "PYNQ"]
 	path = PYNQ
-	url = https://github.com/PeterOgden/PYNQ.git
+	url = https://github.com/Xilinx/PYNQ.git
 [submodule "binutils"]
 	path = packages/gcc-mb/binutils
 	url = https://github.com/Xilinx/binutils.git
+[submodule "reveal.js"]
+	path = reveal.js
+	url = https://github.com/hakimel/reveal.js.git

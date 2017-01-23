@@ -7,6 +7,8 @@ export PATH=/opt/qemu/bin:$PATH
 # Perform the basic bootstrapping of the image
 multistrap -f image_config/test.config -d $target --no-auth
 
+cp *.deb $target/var/cache/apt/archives
+
 # Copy over what we need to complete the installation
 cp `which qemu-arm-static` $target/usr/bin
 cp image_config/*.sh $target
@@ -35,7 +37,7 @@ sudo chroot $target bash install_python.sh
 sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
-cp PYNQ $target/home/xilinx/pynq_git
+cp -r PYNQ $target/home/xilinx/pynq_git
 chroot $target bash install_pynq.sh
 
 chroot $target bash install_sigrok.sh

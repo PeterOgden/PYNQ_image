@@ -36,6 +36,7 @@ EOT
 
 # Enable widgets
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
+jupyter nbextensions_configurator enable --user
 
 date "+Revision %Y_%m_%d" > /home/xilinx/REVISION
 chown xilinx:xilinx /home/xilinx/REVISION
