@@ -1,6 +1,8 @@
 target=$1
 fss="proc run dev"
 
+old_hostname=`hostname`
+
 # Make sure that our version of QEMU is on the PATH
 export PATH=/opt/qemu/bin:$PATH
 
@@ -61,3 +63,15 @@ cp boot_files/* $target/boot
 cp -r packages/gcc-mb/microblazeel-xilinx-elf $target/opt
 chown root:root -R $target/opt/microblazeel-xilinx-elf
 
+
+# Kill all processes in the chroot
+for f in /proc/fd/*
+do
+  if [ -e $f/root -a `readlink -f $f/root` == `readlink -f $target` ]
+  then
+    kill `basename $fd`
+  fi
+done
+
+# Undo the effect of the hostname script in PYNQ installation
+hostname $old_hostname
