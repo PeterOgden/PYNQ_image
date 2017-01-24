@@ -36,6 +36,8 @@ EOT
 
 # Enable widgets
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
+# Install Extensions
+jupyter contrib nbextension install --user
 jupyter nbextensions_configurator enable --user
 
 date "+Revision %Y_%m_%d" > /home/xilinx/REVISION
