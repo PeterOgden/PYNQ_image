@@ -71,6 +71,7 @@ checkenv:
 	which vivado
 	which arm-linux-gnueabihf-gcc
 	which microblaze-xilinx-elf-gcc
+	which ct-ng
 	${QEMU_EXE} -version | fgrep 2.8.0
 	vivado -version | fgrep 2016.1
 	sudo -n true
