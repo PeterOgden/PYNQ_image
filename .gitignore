@@ -1,0 +1,10 @@
+fsbl
+hsi*
+*.deb
+ps7_init*
+pynq.hdf
+pynq_dts
+vivado.*
+linux-4*
+rootfs.img
+simple_pynq

@@ -1,0 +1,6 @@
+microblazeel-xilinx-elf
+config
+config.gen
+.config*
+.build
+build.*
