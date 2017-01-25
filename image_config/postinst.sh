@@ -12,8 +12,8 @@ apt-get -y --force-yes purge resolvconf
 apt-get -y --force-yes install resolvconf
 umount -l /proc
 
-dpkg -i /var/cache/apt/archives/linux-image-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb
-dpkg -i /var/cache/apt/archives/linux-headers-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb
+dpkg -i /var/cache/apt/archives/linux-image-4.6.0-xilinx.deb
+dpkg -i /var/cache/apt/archives/linux-headers-4.6.0-xilinx.deb
 
 rm -f /boot/*
 

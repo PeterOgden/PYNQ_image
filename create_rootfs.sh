@@ -65,11 +65,11 @@ chown root:root -R $target/opt/microblazeel-xilinx-elf
 
 
 # Kill all processes in the chroot
-for f in /proc/fd/*
+for f in /proc/*
 do
   if [ -e $f/root -a x`readlink -f $f/root` == x`readlink -f $target` ]
   then
-    kill `basename $fd`
+    kill `basename $f`
   fi
 done
 

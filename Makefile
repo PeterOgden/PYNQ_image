@@ -49,10 +49,12 @@ boot_files/BOOT.bin: boot_gen/BOOT.bin
 packages/gcc-mb/build.success:
 	bash packages/gcc-mb/build.sh
 
-linux-headers-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb: linux-xlnx/.config
+linux-headers-4.6.0-xilinx.deb: linux-xlnx/.config
 	cd linux-xlnx && make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- deb-pkg -j4
+	mv linux-headers* linux-headers-4.6.0-xilinx.deb
+	mv linux-image* linux-image-4.6.0-xilinx.deb
 
-rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success linux-headers-4.6.0-xilinx_4.6.0-xilinx-3_armhf.deb
+rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success linux-headers-4.6.0-xilinx.deb
 	sudo bash create_mount_img.sh rootfs.img rootfs_staging
 	sudo bash create_rootfs.sh rootfs_staging
 
