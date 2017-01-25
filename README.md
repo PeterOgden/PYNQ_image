@@ -49,3 +49,10 @@ The version of Vivado/SDK on the PATH when make is invoked should be the
 version used to compile the base bitstream. The Kernel version and DTG sources
 should be upgraded in lockstep. Using git submodules allows the versions of
 each repository used to be recorded unambiguously.
+
+# Create Root Filesystem
+
+The root filesystem is created by calling `make rootfs.img`. This requires a
+new version of qemu to be installed in /opt/qemu and the appropriate binfmt
+utils installed for your kernel. Other required packages are multi-strap and
+crosstools-ng which should be on the PATH.
