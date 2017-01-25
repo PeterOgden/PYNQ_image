@@ -1,6 +1,6 @@
---- ../rootfs/etc/samba/smb.conf	2016-12-19 16:01:15.000000000 +0000
+--- ../imagefs/etc/samba/smb.conf	2016-08-11 18:22:03.859716404 +0100
 +++ ../imagefs/etc/samba/smb.conf	2016-08-11 18:22:03.859716404 +0100
-@@ -185,6 +185,10 @@
+@@ -185,6 +185,13 @@
  # public shares, not just authenticated ones
     usershare allow guests = yes
  
@@ -8,13 +8,13 @@
 +# grahams - will allow some symlink following, globally disable here
 +unix extensions = no
 +
++# Work better inside corporate network
++map untrusted to domain = yes
++
  #======================= Share Definitions =======================
  
  # Un-comment the following (and tweak the other settings below to suit)
-@@ -258,3 +262,16 @@
- # to the drivers directory for these users to have write rights in it
- ;   write list = root, @lpadmin
- 
+@@ -260,0 +268,13 @@
 +
 +[xilinx]
 +path = /home/xilinx
