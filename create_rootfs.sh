@@ -1,4 +1,9 @@
+#!/bin/bash
+
+set -x
+
 target=$1
+
 fss="proc run dev"
 
 old_hostname=`hostname`
@@ -7,22 +12,22 @@ old_hostname=`hostname`
 export PATH=/opt/qemu/bin:$PATH
 
 # Perform the basic bootstrapping of the image
-multistrap -f image_config/test.config -d $target --no-auth
+$dry_run multistrap -f image_config/test.config -d $target --no-auth
 
-cp *.deb $target/var/cache/apt/archives
+$dry_run cp *.deb $target/var/cache/apt/archives
 
 # Copy over what we need to complete the installation
-cp `which qemu-arm-static` $target/usr/bin
-cp image_config/*.sh $target
-cp -r reveal.js $target/root
+$dry_run cp `which qemu-arm-static` $target/usr/bin
+$dry_run cp image_config/*.sh $target
+$dry_run cp -r reveal.js $target/root
 
 # Finish the base install
-chroot $target bash postinst.sh
+$dry_run chroot $target bash postinst.sh
 
 # Pass through special files so that the chroot works properly
 for fs in $fss
 do
-  mount -o bind /$fs $target/$fs
+  $dry_run mount -o bind /$fs $target/$fs
 done
 
 # Perform configuration
@@ -30,38 +35,46 @@ done
 
 for f in $(cd config_diff && find -name "*.diff")
 do
-  sudo patch $target/${f%.diff} < config_diff/$f
+  $dry_run sudo patch $target/${f%.diff} < config_diff/$f
 done
 
 # Setup Python
 
-sudo chroot $target bash install_python.sh
-sudo chroot $target bash install_pip_packages.sh
+$dry_run sudo chroot $target bash install_python.sh
+$dry_run sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
-cp -r PYNQ $target/home/xilinx/pynq_git
-chroot $target bash install_pynq.sh
+$dry_run cp -r PYNQ $target/home/xilinx/pynq_git
+$dry_run chroot $target bash install_pynq.sh
 
-chroot $target bash install_sigrok.sh
-chroot $target bash install_opencv.sh
+for f in packages/*
+do
+  if [ -e $f/pre.sh ]; then
+    $dry_run $f/pre.sh $target
+  fi
+  if [ -e $f/qemu.sh ]; then
+    $dry_run cp $f/qemu.sh $target
+    $dry_run chroot $target bash qemu.sh
+    $dry_run rm $target/qemu.sh
+  fi
+  if [ -e $f/post.sh ]; then
+    $dry_run $f/post.sh $target
+  fi
+done
 
-bash packages/xkcd/install.sh $target
 
 # Unmount special files
 for fs in $fss
 do
-  umount -l $target/$fs
+  $dry_run umount -l $target/$fs
 done
 
 # Clean up some of the temporary files
-rm -f $target/usr/bin/qemu-arm-static
-rm -f $target/*.sh
-rm -f $target/pynq_make_diff
+$dry_run rm -f $target/usr/bin/qemu-arm-static
+$dry_run rm -f $target/*.sh
+$dry_run rm -f $target/pynq_make_diff
 
-cp boot_files/* $target/boot
-
-cp -r packages/gcc-mb/microblazeel-xilinx-elf $target/opt
-chown root:root -R $target/opt/microblazeel-xilinx-elf
+$dry_run cp boot_files/* $target/boot
 
 
 # Kill all processes in the chroot
@@ -69,9 +82,9 @@ for f in /proc/*
 do
   if [ -e $f/root -a x`readlink -f $f/root` == x`readlink -f $target` ]
   then
-    kill `basename $f`
+    $dry_run kill `basename $f`
   fi
 done
 
 # Undo the effect of the hostname script in PYNQ installation
-hostname $old_hostname
+$dry_run hostname $old_hostname

@@ -14,6 +14,7 @@ sigrok_cli_version=0.5.0
 libsigrok="libsigrok-${libsigrok_version}"
 libsigrokdecode="libsigrokdecode-${libsigrokdecode_version}"
 sigrok_cli="sigrok-cli-${sigrok_cli_version}"
+patch_file="/libsigrokdecode.diff"
 
 cd $HOME
 mkdir sigrok_build
@@ -30,6 +31,7 @@ cd ..
 wget http://sigrok.org/download/source/libsigrokdecode/${libsigrokdecode}.tar.gz
 tar -xf ${libsigrokdecode}.tar.gz
 cd ${libsigrokdecode}
+patch -p2 -r -i $patch_file
 export PKG_CONFIG_PATH=/opt/sigrok/lib/pkgconfig
 ./configure --prefix=/opt/sigrok
 make -j 4
@@ -52,4 +54,4 @@ echo 'PATH=/opt/sigrok/bin:$PATH' > /etc/profile.d/sigrok.sh
 cd ..
 
 rm -rf sigrok_build
-
+rm -f "$patch_file"
