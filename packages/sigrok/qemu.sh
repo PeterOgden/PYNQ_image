@@ -31,7 +31,7 @@ cd ..
 wget http://sigrok.org/download/source/libsigrokdecode/${libsigrokdecode}.tar.gz
 tar -xf ${libsigrokdecode}.tar.gz
 cd ${libsigrokdecode}
-patch -p2 -r -i $patch_file
+patch -p2 -i $patch_file
 export PKG_CONFIG_PATH=/opt/sigrok/lib/pkgconfig
 ./configure --prefix=/opt/sigrok
 make -j 4
