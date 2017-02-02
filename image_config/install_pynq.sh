@@ -20,6 +20,7 @@ make -f pynq_git/scripts/linux/makefile.pynq new_pynq_update
 
 pynq_git/scripts/linux/hostname.sh
 rm -rf pynq_git
+rm -rf docs
 
 cd /root
 

@@ -7,4 +7,5 @@ pynq_dts
 vivado.*
 linux-4*
 rootfs.img
+rootfs_staging
 simple_pynq
