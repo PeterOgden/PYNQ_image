@@ -1,8 +1,6 @@
 cd /root
 export http_proxy=http://proxy
 export https_proxy=http://proxy
-export CFLAGS="-O2"
-export CPPFLAGS="-O2"
 
 mkdir python_install
 cd python_install
