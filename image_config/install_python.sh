@@ -1,6 +1,4 @@
 cd /root
-export http_proxy=http://proxy
-export https_proxy=http://proxy
 
 mkdir python_install
 cd python_install

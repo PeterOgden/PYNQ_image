@@ -2,8 +2,6 @@
 
 set -x
 
-env
-
 target=$1
 
 fss="proc run dev"

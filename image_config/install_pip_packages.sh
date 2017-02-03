@@ -1,5 +1,3 @@
-export https_proxy=http://proxy
-export http_proxy=http://proxy
 export PATH=/opt/python3.6/bin:$PATH
 export HOME=/root
 

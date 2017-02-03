@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export http_proxy=http://proxy
-export https_proxy=http://proxy
 export HOME=/root
 
 set -x

@@ -4,8 +4,6 @@ set -x
 set -e
 
 export HOME=/root
-export http_proxy=http://proxy
-export https_proxy=http://proxy
 
 libsigrok_version=0.3.0
 libsigrokdecode_version=0.3.0
