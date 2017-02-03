@@ -2,6 +2,8 @@
 
 set -x
 
+env
+
 target=$1
 
 fss="proc run dev"
@@ -37,7 +39,7 @@ for f in $(cd config_diff && find -name "*.diff")
 do
   $dry_run sudo patch $target/${f%.diff} < config_diff/$f
 done
-
+git describe --long > $target/home/xilinx/REVISION
 # Setup Python
 
 $dry_run sudo chroot $target bash install_python.sh
