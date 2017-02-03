@@ -1,0 +1,43 @@
+# Edit line 989 of /usr/sbin/multistrap to replace $forceyes with --force-yes
+# Add lines to sudoers to allow pass through of proxy environment
+# and passwordless login
+# Defaults        env_keep += "http_proxy"
+# Defaults        env_keep += "https_proxy"
+# Defaults        env_keep += "ftp_proxy"
+# %sudo   ALL=(ALL:ALL) NOPASSWD: ALL
+# Setup Proxy
+
+mkdir tools
+cd tools/
+wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.22.0.tar.bz2
+tar -xf crosstool-ng-1.22.0.tar.bz
+cd crosstool-ng/
+./configure --prefix=/opt/crosstool-ng
+make
+sudo make install
+cd ..
+wget http://wiki.qemu-project.org/download/qemu-2.8.0.tar.bz2
+tar -xf qemu-2.8.0.tar.bz2
+cd qemu-2.8.0
+./configure --target-list=arm-linux-user --prefix=/opt/qemu --static
+make
+sudo make install
+cd /opt/qemu/bin
+sudo ln -s qemu-arm qemu-arm-static
+cd ~
+# Install SDSoC 2016.1
+# ./Xilinx_2016.1_sdsoc_0521_1_Lin64.bin
+
+cd /usr/bin
+sudo ln -s make gmake
+
+mkdir git
+cd git
+git clone $bundle pynq_image_build
+cd pynq_image_build
+git submodule init
+git submodule update
+
+
+# Add QEMU, crosstools and SDK toolchains to path
+# Source vivado settings files
