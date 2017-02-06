@@ -57,6 +57,7 @@ linux-headers-4.6.0-xilinx.deb: linux-xlnx/.config
 rootfs.img: boot_files/BOOT.bin boot_files/devicetree.dtb boot_files/uImage packages/gcc-mb/build.success linux-headers-4.6.0-xilinx.deb
 	sudo bash create_mount_img.sh rootfs.img rootfs_staging
 	sudo bash create_rootfs.sh rootfs_staging
+	bash resize_umount.sh rootfs.img rootfs_staging
 
 .PRECIOUS: rootfs.img
 
