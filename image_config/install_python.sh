@@ -22,7 +22,7 @@ patch Modules/_randommodule.c <<EOT
              /* Reading system entropy failed, fall back on the worst entropy:
 EOT
 
-./configure --prefix=/opt/python3.6 --enable-shared
+./configure --prefix=/opt/python3.6 --enable-shared --enable-optimizations
 make -j 4 altinstall
 
 echo /opt/python3.6/lib > /etc/ld.so.conf.d/python3.6.conf
