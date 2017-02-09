@@ -45,7 +45,7 @@ export CPPFLAGS="$CFLAGS"
 
 cp python3.6.optimized.zip $target
 
-$dry_run sudo chroot $target bash install_python_precompiled.sh
+$dry_run sudo chroot $target bash install_python.sh
 $dry_run sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
