@@ -40,7 +40,12 @@ done
 git describe --long > $target/home/xilinx/REVISION
 # Setup Python
 
-$dry_run sudo chroot $target bash install_python.sh
+export CFLAGS="-mcpu=cortex-a9 -mfpu=neon -funsafe-math-optimizations"
+export CPPFLAGS="$CFLAGS"
+
+cp python3.6.optimized.zip $target
+
+$dry_run sudo chroot $target bash install_python_precompiled.sh
 $dry_run sudo chroot $target bash install_pip_packages.sh
 
 # Setup PYNQ
