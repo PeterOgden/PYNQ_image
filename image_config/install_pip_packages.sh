@@ -9,6 +9,7 @@ iter_count=0
 max_iterations=3
 
 read -d '' PACKAGES <<EOT
+pygraphviz --install-option=--include-path=/usr/include/graphviz --install-option=--library-path=/usr/lib/graphviz/
 beautifulsoup4
 Bottleneck
 cffi
@@ -44,7 +45,6 @@ seaborn
 sympy
 uvloop
 transitions
-pygraphviz
 pyeda
 pycurl
 EOT
@@ -52,7 +52,7 @@ EOT
 pip3.6 install numpy requests
 while [ -n "$PACKAGES" -a "$max_iterations" != "$iter_count" ];
 do 
-  for p in $PACKAGES
+  printf '%s\n' "$PACKAGES" | while IFS= read -r p
   do 
     pip3.6 install -v $p
     result=$?
